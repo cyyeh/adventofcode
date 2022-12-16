@@ -7,41 +7,25 @@ def has_marker(buffer: str) -> bool:
 
     return False
 
-result = -1
+def processed_chars(marker_chars_num: int) -> int:
+    result = -1
+    with open('input.txt') as f:
+        chars = f.read()
+        buffer = chars[:marker_chars_num]
 
-with open('input.txt') as f:
-    chars = f.read()
-    buffer = chars[:4]
+        if has_marker(buffer):
+            result = marker_chars_num
 
-    if has_marker(buffer):
-        result = 4
-
-    if result == -1:
-        for (i, char) in enumerate(chars[4:]):
-            buffer = buffer[1:] + char
-            if has_marker(buffer):
-                result = i + 4 + 1
-                break
+        if result == -1:
+            for (i, char) in enumerate(chars[marker_chars_num:]):
+                buffer = buffer[1:] + char
+                if has_marker(buffer):
+                    result = i + marker_chars_num + 1
+                    break
+    return result
 
 # part 1: How many characters need to be processed before the first start-of-packet marker is detected?
-print(result)
-
-
-result = -1
-
-with open('input.txt') as f:
-    chars = f.read()
-    buffer = chars[:14]
-
-    if has_marker(buffer):
-        result = 14
-
-    if result == -1:
-        for (i, char) in enumerate(chars[14:]):
-            buffer = buffer[1:] + char
-            if has_marker(buffer):
-                result = i + 14 + 1
-                break
+print(processed_chars(4))
 
 # part 2: How many characters need to be processed before the first start-of-message marker is detected?
-print(result)
+print(processed_chars(14))
